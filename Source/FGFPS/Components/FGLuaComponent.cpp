@@ -63,6 +63,12 @@ float UFGLuaComponent::GetNumber(const FString& Name) const
 	return LuaContext->GetNumber(TCHAR_TO_ANSI(*Name));
 }
 
+int UFGLuaComponent::GetInteger(const FString& Name) const
+{
+	check(LuaContext != nullptr);
+	return LuaContext->GetInteger(TCHAR_TO_ANSI(*Name));
+}
+
 void UFGLuaComponent::SetNumber(float Number, const FString& Name)
 {
 	check(LuaContext != nullptr);

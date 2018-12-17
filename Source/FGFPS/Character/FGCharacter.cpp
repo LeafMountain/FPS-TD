@@ -74,6 +74,7 @@ void AFGCharacter::Tick(float DeltaSeconds)
 
 	GetLuaContext()->SetBool(IsCharacterMoving(), "IsMoving");
 	LuaComponent->CallFunction_OneParamNumber(TEXT("Tick"), DeltaSeconds);
+
 }
 
 bool AFGCharacter::GetShootDirection_Implementation(FVector& StartLocation, FVector& ForwardDirection) const
@@ -227,9 +228,16 @@ void AFGCharacter::InteractReleased()
 
 void AFGCharacter::FirePressed()
 {
-	if (CurrentWeapon)
+	int Ammo = LuaComponent->GetInteger(TEXT("Ammo"));
+
+	if (Ammo > 0)
 	{
-		CurrentWeapon->Fire();
+		if (LuaComponent->CallFunction_RetValueBool(TEXT("CanWeaponShoot")))
+		{
+			LuaComponent->CallFunction(TEXT("OnShoot"));
+			CurrentWeapon->Fire();
+			Ammo -= 1;
+		}
 	}
 }
 

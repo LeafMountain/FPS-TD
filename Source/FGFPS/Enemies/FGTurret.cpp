@@ -134,12 +134,16 @@ void AFGTurret::CreateWeapon(class UFGWeaponSchematic* NewWeaponSchematic)
 
 void AFGTurret::Fire()
 {
-	if (!CurrentWeapon)
-	{
-		return;
-	}
+	int Ammo = LuaComponent->GetInteger(TEXT("Ammo"));
 
-	CurrentWeapon->Fire();
+	if (Ammo > 0)
+	{
+		if (CurrentWeapon)
+		{
+			CurrentWeapon->Fire();
+			Ammo -= 1;
+		}
+	}
 }
 
 void AFGTurret::Die()

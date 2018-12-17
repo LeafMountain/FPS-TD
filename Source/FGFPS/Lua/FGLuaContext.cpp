@@ -179,6 +179,25 @@ float UFGLuaContext::GetNumber(const char* Name)
 	return Value;
 }
 
+int UFGLuaContext::GetInteger(const char* Name)
+{
+	float Value = 0;
+	lua_getglobal(LuaState, Name);
+	if (lua_isnumber(LuaState, -1))
+	{
+		Value = lua_tointeger(LuaState, -1);
+	}
+	else
+	{
+		const FString ErrorString = TEXT("[LuaContext]: ") + FString(ANSI_TO_TCHAR(Name)) + TEXT(" is not a integer.");
+		DebugPrint(TCHAR_TO_ANSI(*ErrorString));
+	}
+
+	lua_pop(LuaState, 1);
+
+	return Value;
+}
+
 bool UFGLuaContext::DoesFunctionExist(const char* FunctionName)
 {
 	check(LuaState != nullptr); // formality

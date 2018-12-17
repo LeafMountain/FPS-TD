@@ -23,6 +23,7 @@ public:
 
 	void SetNumber(float Number, const char* Name);
 	float GetNumber(const char* Name);
+	int GetInteger(const char* Name);
 
 	bool DoesFunctionExist(const char* FunctionName);
 

@@ -2,6 +2,9 @@
 FirePower = 1000
 Health = 100
 
+MaxAmmo = 5
+Ammo = 5
+
 CanAttack = true
 
 AttackCooldown = 3
@@ -78,3 +81,18 @@ end
 function GetADSSpeed()
 	return 20
 end
+
+function OnShoot()
+	CanShoot = false
+	CurrentCooldown = Cooldown
+	Ammo = Ammo - 1
+end
+
+function CanWeaponShoot()
+	--if Ammo > 0 then
+	return CanAttack
+	--end
+end
+--function GetAmmo()
+--	return Ammo
+--end
