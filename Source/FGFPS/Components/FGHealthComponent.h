@@ -14,7 +14,7 @@ public:
 	UPROPERTY(EditAnywhere)
 	int CurrentHealth = 1;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void AdjustHealth(int Value);
 
 	FORCEINLINE	float GetHealthPercentage() { return CurrentHealth / MaxHealth;  }
