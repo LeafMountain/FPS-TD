@@ -11,6 +11,7 @@ class FGFPS_API UFGWaypointFollowerComponent : public UActorComponent {
 	GENERATED_BODY()
 
 protected:
+	UFGWaypointFollowerComponent();
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
@@ -25,7 +26,8 @@ private:
 	float timeAccuracy = 1.f;
 
 	// The distance this actor is allowed to be from the destination to count as destination reached
-	float reachRadius = 10.f;
+	UPROPERTY(EditAnywhere)
+	float reachRadius = 100.f;
 
 	void StartDestinationCheck();
 	void StopDestinationCheck();
@@ -45,5 +47,8 @@ public:
 	bool DestinationReached();
 
 	void CheckIfDestinationReached();
+
+	UPROPERTY(EditAnywhere)
+	float moveSpeed = 200.f;
 
 };

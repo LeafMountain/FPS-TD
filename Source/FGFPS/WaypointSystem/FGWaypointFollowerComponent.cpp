@@ -2,16 +2,35 @@
 #include "DrawDebugHelpers.h"
 #include "FGWaypoint.h"
 
-void UFGWaypointFollowerComponent::BeginPlay() {
-	// Start a timer to check if destination has been reached
-	StartDestinationCheck();
-
+UFGWaypointFollowerComponent::UFGWaypointFollowerComponent() {
 	PrimaryComponentTick.bStartWithTickEnabled = true;
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
+void UFGWaypointFollowerComponent::BeginPlay() {
+	Super::BeginPlay();
+
+	if (destinationWaypoint)
+		SetDestination(destinationWaypoint);
+
+	// Start a timer to check if destination has been reached
+	StartDestinationCheck();
+}
+
 void UFGWaypointFollowerComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
 	DrawLineToDestination(DeltaTime);
+
+	AActor* owner = GetOwner();
+	FVector currentPosition = owner->GetActorLocation();
+	FVector targetDestination = destination;
+	targetDestination.Z = currentPosition.Z;
+	FVector directionToDestination = targetDestination - currentPosition;
+	directionToDestination.Normalize();
+
+	owner->SetActorLocation(currentPosition + directionToDestination * DeltaTime * moveSpeed);
+	owner->SetActorRotation(directionToDestination.Rotation());
 }
 
 void UFGWaypointFollowerComponent::StartDestinationCheck() {
@@ -56,7 +75,7 @@ bool UFGWaypointFollowerComponent::DestinationReached() {
 
 void UFGWaypointFollowerComponent::CheckIfDestinationReached() {
 	if (DestinationReached()) {
-		SetDestination(destinationWaypoint);
+		SetDestination(destinationWaypoint->NextWaypoint);
 	}
 	else {
 		StartDestinationCheck();
