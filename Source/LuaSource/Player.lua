@@ -93,6 +93,8 @@ function CanWeaponShoot()
 	return CanAttack
 	--end
 end
---function GetAmmo()
---	return Ammo
---end
+
+
+function GetAmmo()
+	Ammo = MaxAmmo
+end

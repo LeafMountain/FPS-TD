@@ -179,6 +179,14 @@ float UFGLuaContext::GetNumber(const char* Name)
 	return Value;
 }
 
+void UFGLuaContext::SetInteger(int Integer, const char* Name)
+{
+	check(LuaState != nullptr);
+
+	lua_pushinteger(LuaState, Integer);
+	lua_setglobal(LuaState, Name);
+}
+
 int UFGLuaContext::GetInteger(const char* Name)
 {
 	float Value = 0;

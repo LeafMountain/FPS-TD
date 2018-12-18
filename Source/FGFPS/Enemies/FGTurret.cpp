@@ -135,8 +135,9 @@ void AFGTurret::CreateWeapon(class UFGWeaponSchematic* NewWeaponSchematic)
 void AFGTurret::Fire()
 {
 	int Ammo = LuaComponent->GetInteger(TEXT("Ammo"));
+	int MaxAmmo = LuaComponent->GetInteger(TEXT("MaxAmmo"));
 
-	if (Ammo > 0)
+	if (Ammo > 0 && Ammo <= MaxAmmo)
 	{
 		if (CurrentWeapon)
 		{

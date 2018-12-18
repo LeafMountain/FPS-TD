@@ -229,8 +229,9 @@ void AFGCharacter::InteractReleased()
 void AFGCharacter::FirePressed()
 {
 	int Ammo = LuaComponent->GetInteger(TEXT("Ammo"));
+	int MaxAmmo = LuaComponent->GetInteger(TEXT("MaxAmmo"));
 
-	if (Ammo > 0)
+	if (Ammo > 0 && Ammo <= MaxAmmo)
 	{
 		if (LuaComponent->CallFunction_RetValueBool(TEXT("CanWeaponShoot")))
 		{
@@ -265,4 +266,9 @@ void AFGCharacter::TurnAtRate(float Rate)
 void AFGCharacter::LookUpAtRate(float Rate)
 {
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+}
+
+void AFGCharacter::ReloadWeapon(float Val)
+{
+
 }
