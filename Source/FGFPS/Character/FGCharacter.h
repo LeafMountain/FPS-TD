@@ -47,10 +47,12 @@ public:
 
 	bool IsCharacterMoving() const;
 
+	UPROPERTY(EditAnywhere, Category = Lua)
+	class UFGLuaComponent* LuaComponent = nullptr;
+
 protected:
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = Lua)
-	class UFGLuaComponent* LuaComponent = nullptr;
+
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Interaction)
 	class UFGPlayerInteractorComponent* InteractorComponent = nullptr;
@@ -81,7 +83,6 @@ protected:
 
 	void SetWeaponADS();
 
-
 	void ADSPressed();
 
 	void ADSReleased();
@@ -103,6 +104,8 @@ protected:
 	void TurnAtRate(float Rate);
 
 	void LookUpAtRate(float Rate);
+
+	void ReloadWeapon(float Val);
 	
 protected:
 	
