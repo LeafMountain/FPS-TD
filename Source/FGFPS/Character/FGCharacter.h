@@ -50,9 +50,19 @@ public:
 	UPROPERTY(EditAnywhere, Category = Lua)
 	class UFGLuaComponent* LuaComponent = nullptr;
 
+// 	UFUNCTION()
+// 	int GetCurrentAmmo();
+// 
+// 	UFUNCTION()
+// 	int GetCurrentMaxAmmo();
+
+	UFUNCTION(BlueprintPure, Category = "Ammo")
+	FText GetCurrentAmmoAsText();
+
+	UFUNCTION(BlueprintPure, Category = "Ammo")
+	FText GetMaxAmmoAsText();
+
 protected:
-
-
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Interaction)
 	class UFGPlayerInteractorComponent* InteractorComponent = nullptr;

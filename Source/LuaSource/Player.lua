@@ -94,7 +94,6 @@ function CanWeaponShoot()
 	--end
 end
 
-
 function GetAmmo()
 	Ammo = MaxAmmo
 end
