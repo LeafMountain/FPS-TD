@@ -1,9 +1,17 @@
 #include "FGWaypointFollowerComponent.h"
-#include "FGWaypointComponent.h"
+#include "DrawDebugHelpers.h"
+#include "FGWaypoint.h"
 
 void UFGWaypointFollowerComponent::BeginPlay() {
 	// Start a timer to check if destination has been reached
 	StartDestinationCheck();
+
+	PrimaryComponentTick.bStartWithTickEnabled = true;
+	PrimaryComponentTick.bCanEverTick = true;
+}
+
+void UFGWaypointFollowerComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
+	DrawLineToDestination(DeltaTime);
 }
 
 void UFGWaypointFollowerComponent::StartDestinationCheck() {
@@ -14,7 +22,11 @@ void UFGWaypointFollowerComponent::StopDestinationCheck() {
 	GetWorld()->GetTimerManager().ClearTimer(timerHandle);
 }
 
-void UFGWaypointFollowerComponent::SetDestination(UFGWaypointComponent* waypoint) {
+void UFGWaypointFollowerComponent::DrawLineToDestination(float lifetime) {
+	DrawDebugLine(GetWorld(), GetOwner()->GetActorLocation(), destination, FColor(0, 255, 255), false, lifetime);
+}
+
+void UFGWaypointFollowerComponent::SetDestination(AFGWaypoint* waypoint) {
 	destinationWaypoint = waypoint;
 
 	if (destinationWaypoint) {

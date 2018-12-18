@@ -6,17 +6,17 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FFGOnNewDestination, FVector, destination);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FFGOnDestinationReached);
 
-UCLASS()
+UCLASS(meta = (BlueprintSpawnableComponent))
 class FGFPS_API UFGWaypointFollowerComponent : public UActorComponent {
 	GENERATED_BODY()
 
 protected:
 	virtual void BeginPlay() override;
-
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 private:
 	UPROPERTY(EditAnywhere)
-	class UFGWaypointComponent* destinationWaypoint;
+	class AFGWaypoint* destinationWaypoint;
 
 	FVector destination;
 
@@ -30,9 +30,11 @@ private:
 	void StartDestinationCheck();
 	void StopDestinationCheck();
 
+	void DrawLineToDestination(float lifetime);
+
 public:
 	UFUNCTION()
-	void SetDestination(class UFGWaypointComponent* waypoint);
+	void SetDestination(class AFGWaypoint* waypoint);
 
 	// Event triggered when a new destination has been set
 	FFGOnNewDestination OnNewDestination;
