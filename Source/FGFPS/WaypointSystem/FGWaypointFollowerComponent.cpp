@@ -66,6 +66,8 @@ void UFGWaypointFollowerComponent::SetDestination(AFGWaypoint* waypoint) {
 		OnDestinationReached.Broadcast();
 		// Stop the destination check
 		StopDestinationCheck();
+
+		GetOwner()->Destroy();
 	}
 }
 

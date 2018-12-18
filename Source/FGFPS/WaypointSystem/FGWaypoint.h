@@ -22,5 +22,7 @@ public:
 	// Get the position of the waypoint (aka the owners location)
 	FORCEINLINE FVector GetPosition() { return GetActorLocation(); }
 
-	//FFGOnWaypointReached OnWaypointReached;
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnWaypointReached();
+
 };
