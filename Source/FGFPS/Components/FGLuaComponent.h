@@ -33,7 +33,13 @@ public:
 	float GetNumber(const FString& Name) const;
 
 	UFUNCTION(BlueprintCallable, Category = "FG|Lua")
+	int GetInteger(const FString& Name) const;
+
+	UFUNCTION(BlueprintCallable, Category = "FG|Lua")
 	void SetNumber(float Number, const FString& Name);
+
+	UFUNCTION(BlueprintCallable, Category = "FG|Lua")
+	void SetInteger(int Integer, const FString& Name);
 
 	UFUNCTION(BlueprintPure, Category = "FG|Lua", meta = (WorldContext = "WorldContextObject"))
 	static UFGLuaComponent* GetLuaComponentFromActor(UObject* WorldContextObject, class AActor* TargetActor, bool bUseFindComponent = true);

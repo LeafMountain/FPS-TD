@@ -74,6 +74,7 @@ void AFGCharacter::Tick(float DeltaSeconds)
 
 	GetLuaContext()->SetBool(IsCharacterMoving(), "IsMoving");
 	LuaComponent->CallFunction_OneParamNumber(TEXT("Tick"), DeltaSeconds);
+
 }
 
 bool AFGCharacter::GetShootDirection_Implementation(FVector& StartLocation, FVector& ForwardDirection) const
@@ -227,9 +228,17 @@ void AFGCharacter::InteractReleased()
 
 void AFGCharacter::FirePressed()
 {
-	if (CurrentWeapon)
+	int Ammo = LuaComponent->GetInteger(TEXT("Ammo"));
+	int MaxAmmo = LuaComponent->GetInteger(TEXT("MaxAmmo"));
+
+	if (Ammo > 0 && Ammo <= MaxAmmo)
 	{
-		CurrentWeapon->Fire();
+		if (LuaComponent->CallFunction_RetValueBool(TEXT("CanWeaponShoot")))
+		{
+			LuaComponent->CallFunction(TEXT("OnShoot"));
+			CurrentWeapon->Fire();
+			Ammo -= 1;
+		}
 	}
 }
 
@@ -257,4 +266,9 @@ void AFGCharacter::TurnAtRate(float Rate)
 void AFGCharacter::LookUpAtRate(float Rate)
 {
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+}
+
+void AFGCharacter::ReloadWeapon(float Val)
+{
+
 }
