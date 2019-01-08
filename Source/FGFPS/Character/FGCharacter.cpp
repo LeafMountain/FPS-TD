@@ -169,7 +169,7 @@ FText AFGCharacter::GetCurrentAmmoAsText()
 FText AFGCharacter::GetMaxAmmoAsText()
 {
 	int32 PlayerMaxAmmo = LuaComponent->GetInteger(TEXT("MaxAmmo"));
-	FString PlayerMaxAmmoTXT = FString::FromInt(PlayerMaxAmmo);
+	FString PlayerMaxAmmoTXT = FString::FromInt(PlayerMaxAmmo) + TEXT(" / ");
 	FText PlayerMaxAmmoText = FText::FromString(PlayerMaxAmmoTXT);
 	return PlayerMaxAmmoText;
 }

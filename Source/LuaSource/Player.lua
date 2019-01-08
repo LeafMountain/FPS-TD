@@ -2,8 +2,8 @@
 FirePower = 1000
 Health = 100
 
-MaxAmmo = 5
-Ammo = 5
+MaxAmmo = 10
+Ammo = 10
 
 CanAttack = true
 
