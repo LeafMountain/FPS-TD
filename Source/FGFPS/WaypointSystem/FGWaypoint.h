@@ -25,4 +25,8 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnWaypointReached();
 
+	// Get distance to the next waypoint
+	UFUNCTION()
+	float DistanceToNextWaypoint();
+
 };
