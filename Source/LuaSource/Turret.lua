@@ -1,10 +1,10 @@
 
 CanShoot = true
 
-MaxAmmo = 5
-Ammo = 5
+MaxAmmo = 15
+Ammo = 15
 
-Cooldown = 0.4
+Cooldown = 0.5
 CurrentCooldown = 0
 
 RotationSpeed = 1

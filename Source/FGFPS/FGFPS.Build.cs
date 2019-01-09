@@ -11,6 +11,8 @@ public class FGFPS : ModuleRules
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UMG" });
 
+        PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
+
         string ThirdPartyPath = Path.GetFullPath(Path.Combine(ModuleDirectory, "../../ThirdParty/"));
         string LuaLibPath = Path.Combine(ThirdPartyPath, "Lua");
         PublicAdditionalLibraries.Add(Path.Combine(LuaLibPath, "lua_Win64.lib"));
