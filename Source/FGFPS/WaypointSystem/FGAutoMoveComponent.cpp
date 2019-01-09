@@ -10,8 +10,6 @@ void UFGAutoMoveComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	UE_LOG(LogTemp, Warning, TEXT("Component test tick"));
-
 	// Move towards destination if destination isn't reached
 	if (!DestinationReached())
 	{

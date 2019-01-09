@@ -1,4 +1,5 @@
 #include "FGEnemyStats.h"
+#include "WaypointSystem/FGWaypointFollowerComponent.h"
 
 float UFGEnemyStats::GetSpeed()
 {
@@ -10,7 +11,14 @@ float UFGEnemyStats::GetHealth()
 	return 10;
 }
 
-FVector UFGEnemyStats::GetPosition()
+float UFGEnemyStats::GetProgress()
 {
-	return GetOwner()->GetActorLocation();
+	UFGWaypointFollowerComponent* WaypointFollower = (UFGWaypointFollowerComponent*)GetOwner()->GetComponentByClass(UFGWaypointFollowerComponent::StaticClass());
+
+	int Progress = 0;
+
+	if (WaypointFollower)
+		Progress = WaypointFollower->GetProgress();
+
+	return Progress;
 }
