@@ -39,9 +39,11 @@ public:
 	void SetDestination(class AFGWaypoint* waypoint);
 
 	// Event triggered when a new destination has been set
+	UPROPERTY(BlueprintAssignable, Category = "FG")
 	FFGOnNewDestination OnNewDestination;
 
 	// Event triggered when the final destination has been reached (aka when this is a nullptr)
+	UPROPERTY(BlueprintAssignable, Category = "FG")
 	FFGOnDestinationReached OnDestinationReached;
 
 	bool DestinationReached();

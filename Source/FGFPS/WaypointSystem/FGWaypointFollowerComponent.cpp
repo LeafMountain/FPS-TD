@@ -1,6 +1,7 @@
 #include "FGWaypointFollowerComponent.h"
 #include "DrawDebugHelpers.h"
 #include "FGWaypoint.h"
+#include "FGAutoMoveComponent.h"
 
 UFGWaypointFollowerComponent::UFGWaypointFollowerComponent() {
 	PrimaryComponentTick.bStartWithTickEnabled = true;
@@ -22,15 +23,17 @@ void UFGWaypointFollowerComponent::TickComponent(float DeltaTime, enum ELevelTic
 
 	DrawLineToDestination(DeltaTime);
 
-	AActor* owner = GetOwner();
-	FVector currentPosition = owner->GetActorLocation();
-	FVector targetDestination = destination;
-	targetDestination.Z = currentPosition.Z;
-	FVector directionToDestination = targetDestination - currentPosition;
-	directionToDestination.Normalize();
+	//FGAutoMoveComponent* AutoMoveComp = GetOwner()->GetComponentByClass(FGAutoMoveComponent::StaticClass());
 
-	owner->SetActorLocation(currentPosition + directionToDestination * DeltaTime * moveSpeed);
-	owner->SetActorRotation(directionToDestination.Rotation());
+	//AActor* owner = GetOwner();
+	//FVector currentPosition = owner->GetActorLocation();
+	//FVector targetDestination = destination;
+	//targetDestination.Z = currentPosition.Z;
+	//FVector directionToDestination = targetDestination - currentPosition;
+	//directionToDestination.Normalize();
+
+	//owner->SetActorLocation(currentPosition + directionToDestination * DeltaTime * moveSpeed);
+	//owner->SetActorRotation(directionToDestination.Rotation());		// could do with some lerping
 }
 
 void UFGWaypointFollowerComponent::StartDestinationCheck() {
@@ -47,6 +50,9 @@ void UFGWaypointFollowerComponent::DrawLineToDestination(float lifetime) {
 
 void UFGWaypointFollowerComponent::SetDestination(AFGWaypoint* waypoint) {
 	destinationWaypoint = waypoint;
+
+	if(waypoint)
+		OnNewDestination.Broadcast(waypoint->GetActorLocation());
 
 	if (destinationWaypoint) {
 		// Tell the waypoint that it has been reached
