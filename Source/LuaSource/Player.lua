@@ -2,8 +2,8 @@
 FirePower = 1000
 Health = 100
 
-MaxAmmo = 5
-Ammo = 5
+MaxAmmo = 100
+Ammo = 100
 
 CanAttack = true
 
@@ -93,7 +93,6 @@ function CanWeaponShoot()
 	return CanAttack
 	--end
 end
-
 
 function GetAmmo()
 	Ammo = MaxAmmo

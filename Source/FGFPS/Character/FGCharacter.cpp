@@ -158,6 +158,22 @@ bool AFGCharacter::IsCharacterMoving() const
 	return GetCharacterMovement()->IsMovingOnGround() && GetCharacterMovement()->Velocity.Size2D() > KINDA_SMALL_NUMBER;
 }
 
+FText AFGCharacter::GetCurrentAmmoAsText()
+{
+	int32 PlayerAmmo = LuaComponent->GetInteger(TEXT("Ammo"));
+	FString PlayerAmmoTXT = FString::FromInt(PlayerAmmo);
+	FText PlayerAmmoText = FText::FromString(PlayerAmmoTXT);
+	return PlayerAmmoText;
+}
+
+FText AFGCharacter::GetMaxAmmoAsText()
+{
+	int32 PlayerMaxAmmo = LuaComponent->GetInteger(TEXT("MaxAmmo"));
+	FString PlayerMaxAmmoTXT = FString::FromInt(PlayerMaxAmmo) + TEXT(" / ");
+	FText PlayerMaxAmmoText = FText::FromString(PlayerMaxAmmoTXT);
+	return PlayerMaxAmmoText;
+}
+
 void AFGCharacter::HandleWeaponFire()
 {
 	if (!WeaponSchematic)

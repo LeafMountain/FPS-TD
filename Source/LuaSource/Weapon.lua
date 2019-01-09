@@ -1,8 +1,17 @@
 Spread = 6
 Damage = 10
 
-MaxAmmo = 5
-Ammo = 5
+SingleDamage = 15
+SingleSpread = 3
+
+SlowDamage = 5
+SlowSpread = 3
+
+SplashDamage = 10
+SplashSpread = 10
+
+MaxAmmo = 15
+Ammo = 15
 
 CurrentTime = 0
 
