@@ -5,6 +5,7 @@
 #include "Weapon/FGWeapon.h"
 #include "Weapon/FGWeaponSchematic.h"
 #include "Enemies/FGEnemyCharacter.h"
+#include "Components/FGEnemyStats.h"
 #include "Engine/World.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/CollisionProfile.h"
@@ -182,6 +183,14 @@ void AFGTurretSingle::StopDetection()
 	}
 }
 
+void AFGTurretSingle::TargetPriority()
+{
+	if (TargetActor-><UFGEnemyStats>(GetHealth() * ))
+	{
+	}
+	TargetActor = AvailableTargets[0];
+}
+
 void AFGTurretSingle::StartAsyncOverlap()
 {
 	UWorld* World = GetWorld();
@@ -259,8 +268,18 @@ void AFGTurretSingle::HandleAsyncOverlap(const FTraceHandle& TraceHandle, FOverl
 
 	if (!TargetActor && AvailableTargets.Num() > 0)
 	{
-		TargetActor = AvailableTargets[0];
+		// look at current element in AvailableTargets, starting with 0, if target has more health than the element look at next one, 
+		// if not insert it there and move the rest of the list +1 element.
+		// look at current element in AvailableTargets, starting with 0, if target has higher speed insert it there and move the rest
+		// of the list +1 elements.
+		// look at current element in AvailableTargets, starting with 0, if target is further away look at next one, if not insert it there
+		// and move the rest of the list +1 elements.
+		/*if (TargetActor->UFGEnemyStats::GetHealth() <  )*/
+/*		TargetActor = AvailableTargets[0];*/
+		TargetPriority();
 	}
+
+
 
 	StartDetection();
 }
