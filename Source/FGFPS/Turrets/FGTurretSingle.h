@@ -35,6 +35,8 @@ public:
 	void StartDetection();
 	void StopDetection();
 
+	void TargetPriority();
+
 protected:
 
 	UFUNCTION()

@@ -10,7 +10,7 @@ float UFGEnemyStats::GetHealth()
 	return 10;
 }
 
-FVector UFGEnemyStats::GetPosition()
+float UFGEnemyStats::GetPosition()
 {
-	return GetOwner()->GetActorLocation();
+	return 0.5;
 }

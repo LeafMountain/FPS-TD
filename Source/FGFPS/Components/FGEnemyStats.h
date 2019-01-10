@@ -15,5 +15,5 @@ public:
 		float GetHealth();
 
 	UFUNCTION()
-		FVector GetPosition();
+		float GetPosition();
 };
