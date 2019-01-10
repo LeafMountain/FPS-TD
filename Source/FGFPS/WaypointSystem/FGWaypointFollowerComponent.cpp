@@ -3,7 +3,9 @@
 #include "FGWaypoint.h"
 #include "FGAutoMoveComponent.h"
 
-UFGWaypointFollowerComponent::UFGWaypointFollowerComponent() {
+
+UFGWaypointFollowerComponent::UFGWaypointFollowerComponent()
+{
 	PrimaryComponentTick.bStartWithTickEnabled = true;
 	PrimaryComponentTick.bCanEverTick = true;
 }
@@ -11,81 +13,90 @@ UFGWaypointFollowerComponent::UFGWaypointFollowerComponent() {
 void UFGWaypointFollowerComponent::BeginPlay() {
 	Super::BeginPlay();
 
-	if (destinationWaypoint)
-		SetDestination(destinationWaypoint);
+	if (TargetWaypoint)
+	{
+		SetDestination(TargetWaypoint);
+
+		// Set the full length of the route
+		StartToFinalDestinationDistance = GetRemainingDistance();
+	}
+
 
 	// Start a timer to check if destination has been reached
 	StartDestinationCheck();
 }
 
-void UFGWaypointFollowerComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	DrawLineToDestination(DeltaTime);
-
-	//FGAutoMoveComponent* AutoMoveComp = GetOwner()->GetComponentByClass(FGAutoMoveComponent::StaticClass());
-
-	//AActor* owner = GetOwner();
-	//FVector currentPosition = owner->GetActorLocation();
-	//FVector targetDestination = destination;
-	//targetDestination.Z = currentPosition.Z;
-	//FVector directionToDestination = targetDestination - currentPosition;
-	//directionToDestination.Normalize();
-
-	//owner->SetActorLocation(currentPosition + directionToDestination * DeltaTime * moveSpeed);
-	//owner->SetActorRotation(directionToDestination.Rotation());		// could do with some lerping
-}
-
 void UFGWaypointFollowerComponent::StartDestinationCheck() {
-	GetWorld()->GetTimerManager().SetTimer(timerHandle, this, &UFGWaypointFollowerComponent::CheckIfDestinationReached, timeAccuracy, false);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &UFGWaypointFollowerComponent::CheckIfDestinationReached, UpdateIntervalInSeconds, false);
 }
 
 void UFGWaypointFollowerComponent::StopDestinationCheck() {
-	GetWorld()->GetTimerManager().ClearTimer(timerHandle);
+	GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
 }
 
 void UFGWaypointFollowerComponent::DrawLineToDestination(float lifetime) {
-	DrawDebugLine(GetWorld(), GetOwner()->GetActorLocation(), destination, FColor(0, 255, 255), false, lifetime);
+	DrawDebugLine(GetWorld(), GetOwner()->GetActorLocation(), WaypointPosition, FColor(0, 255, 255), false, lifetime);
 }
 
-void UFGWaypointFollowerComponent::SetDestination(AFGWaypoint* waypoint) {
-	destinationWaypoint = waypoint;
+void UFGWaypointFollowerComponent::SetDestination(AFGWaypoint* Waypoint) {
+	TargetWaypoint = Waypoint;
 
-	if(waypoint)
-		OnNewDestination.Broadcast(waypoint->GetActorLocation());
+	if (TargetWaypoint)
+	{
+		// If the distance isn't set, set it now
+		if (StartToFinalDestinationDistance <= 0)
+			StartToFinalDestinationDistance = GetRemainingDistance();
 
-	if (destinationWaypoint) {
-		// Tell the waypoint that it has been reached
-		waypoint->WaypointReached();
-
-		// Set destination
-		destination = destinationWaypoint->GetPosition();
-
-		// Send out an event to tell listeners that a new waypoint has been aquired
-		OnNewDestination.Broadcast(destinationWaypoint->GetPosition());
-
-		// Start destination check
-		StartDestinationCheck();
-	}
-	else {
-		// The final destination has been reached
-		OnDestinationReached.Broadcast();
-		// Stop the destination check
-		StopDestinationCheck();
-
-		GetOwner()->Destroy();
+		WaypointPosition = TargetWaypoint->GetActorLocation();
+		OnNewDestination.Broadcast(WaypointPosition);
 	}
 }
 
-bool UFGWaypointFollowerComponent::DestinationReached() {
-	return FVector::Distance(GetOwner()->GetActorLocation(), destination) < reachRadius;
+bool UFGWaypointFollowerComponent::DestinationReached() 
+{
+	return DistanceToDestination() < ReachRadius;
 }
 
-void UFGWaypointFollowerComponent::CheckIfDestinationReached() {
+float UFGWaypointFollowerComponent::DistanceToDestination()
+{
+	return FVector::Distance(GetOwner()->GetActorLocation(), WaypointPosition);
+}
+
+void UFGWaypointFollowerComponent::CheckIfDestinationReached() 
+{
+	StopDestinationCheck();
+
+	UE_LOG(LogTemp, Warning, TEXT("%f %"), GetProgress());
+
+	// Check if destination has been reached
 	if (DestinationReached()) {
-		SetDestination(destinationWaypoint->NextWaypoint);
+
+		// Check if there's another waypoint
+		if (TargetWaypoint->NextWaypoint)
+			SetDestination(TargetWaypoint->NextWaypoint);
+		// Else the final checkpoint has been reached
+		else
+			OnDestinationReached.Broadcast();
 	}
-	else {
-		StartDestinationCheck();
+
+	StartDestinationCheck();
+}
+
+float UFGWaypointFollowerComponent::GetRemainingDistance()
+{
+	float LengthToDestination = 0;
+	AFGWaypoint* Waypoint = TargetWaypoint;
+
+	while (Waypoint)
+	{
+		LengthToDestination += Waypoint->DistanceToNextWaypoint();
+		Waypoint = Waypoint->NextWaypoint;
 	}
+
+	return LengthToDestination;
+}
+
+float UFGWaypointFollowerComponent::GetProgress()
+{
+	return 1 - GetRemainingDistance() / StartToFinalDestinationDistance;
 }

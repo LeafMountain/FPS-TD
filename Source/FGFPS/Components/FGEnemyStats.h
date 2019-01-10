@@ -1,19 +1,21 @@
 #pragma once
 
+#include "Components/ActorComponent.h"
 #include "FGEnemyStats.generated.h"
 
-UCLASS()
+UCLASS(meta = (BlueprintSpawnableComponent))
 class FGFPS_API UFGEnemyStats : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 		float GetSpeed();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 		float GetHealth();
 
-	UFUNCTION()
-		float GetPosition();
+	UFUNCTION(BlueprintPure)
+		float GetProgress();
+
 };

@@ -7,36 +7,40 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FFGOnNewDestination, FVector, destin
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FFGOnDestinationReached);
 
 UCLASS(meta = (BlueprintSpawnableComponent))
-class FGFPS_API UFGWaypointFollowerComponent : public UActorComponent {
+class FGFPS_API UFGWaypointFollowerComponent : public UActorComponent 
+{
 	GENERATED_BODY()
 
-protected:
+public:
 	UFGWaypointFollowerComponent();
+
+protected:
+	//UFGWaypointFollowerComponent();
 	virtual void BeginPlay() override;
-	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+	//virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 private:
 	UPROPERTY(EditAnywhere)
-	class AFGWaypoint* destinationWaypoint;
+	class AFGWaypoint* TargetWaypoint;
 
-	FVector destination;
+	FVector WaypointPosition;
 
-	FTimerHandle timerHandle;
+	FTimerHandle TimerHandle;
 
-	float timeAccuracy = 1.f;
+	float UpdateIntervalInSeconds = 0.2f;
 
 	// The distance this actor is allowed to be from the destination to count as destination reached
 	UPROPERTY(EditAnywhere)
-	float reachRadius = 100.f;
+	float ReachRadius = 100.f;
 
 	void StartDestinationCheck();
 	void StopDestinationCheck();
 
-	void DrawLineToDestination(float lifetime);
+	void DrawLineToDestination(float Lifetime);
 
 public:
 	UFUNCTION()
-	void SetDestination(class AFGWaypoint* waypoint);
+	void SetDestination(class AFGWaypoint* Waypoint);
 
 	// Event triggered when a new destination has been set
 	UPROPERTY(BlueprintAssignable, Category = "FG")
@@ -48,9 +52,19 @@ public:
 
 	bool DestinationReached();
 
+	// Get the distance to the next waypoint
+	float DistanceToDestination();
 	void CheckIfDestinationReached();
 
-	UPROPERTY(EditAnywhere)
-	float moveSpeed = 200.f;
+	//UPROPERTY(EditAnywhere)
+	//float moveSpeed = 200.f;
+
+	float GetRemainingDistance();
+
+	// Get the route progress
+	float GetProgress();
+
+	// Store the full length of the waypoint route
+	float StartToFinalDestinationDistance;
 
 };
