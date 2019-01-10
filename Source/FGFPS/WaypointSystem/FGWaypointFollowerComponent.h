@@ -59,6 +59,7 @@ public:
 	//UPROPERTY(EditAnywhere)
 	//float moveSpeed = 200.f;
 
+	// Get rematining distance in CM
 	float GetRemainingDistance();
 
 	// Get the route progress

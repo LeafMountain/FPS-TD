@@ -16,8 +16,6 @@ public:
 protected:
 	void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction);
 
-	float MoveSpeed = 10;
-
 private:
 	FVector Destination;
 
@@ -26,8 +24,8 @@ public:
 	UPROPERTY(EditAnywhere)
 	float DestinationPrecision = 10;
 
-	UFUNCTION(BlueprintCallable)
-	void SetSpeed(float Value);
+	UPROPERTY(EditAnywhere)
+	float MoveSpeed = 10;
 
 	// Set the destination of the actor
 	UFUNCTION(BlueprintCallable)

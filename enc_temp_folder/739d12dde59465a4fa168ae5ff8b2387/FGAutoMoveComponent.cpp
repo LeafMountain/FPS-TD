@@ -26,11 +26,6 @@ void UFGAutoMoveComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 	}
 }
 
-void UFGAutoMoveComponent::SetSpeed(float Value)
-{
-	MoveSpeed = Value;
-}
-
 void UFGAutoMoveComponent::SetDestination(FVector NewDestination)
 {
 	// Assign new destination
