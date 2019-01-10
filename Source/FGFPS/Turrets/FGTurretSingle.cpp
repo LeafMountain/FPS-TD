@@ -185,10 +185,26 @@ void AFGTurretSingle::StopDetection()
 
 void AFGTurretSingle::TargetPriority()
 {
-	if (TargetActor-><UFGEnemyStats>(GetHealth() * ))
+	//Do quick calculation of GetHealth * GetProgress of TargetActor and compare that to AvailableTargets[0]. If the resulting
+	// float is lower than AvailableTargets[0] of same stats then push TargetActor into AvailableTargets[0].
+
+	UFGEnemyStats* TargetActorStats = (UFGEnemyStats*) TargetActor->GetComponentByClass(UFGEnemyStats::StaticClass());
+	UFGEnemyStats* PriorityTargetStats = (UFGEnemyStats*) AvailableTargets[0]->GetComponentByClass(UFGEnemyStats::StaticClass());
+/*	UFGEnemyStats* AvailableTargetsStats = (UFGEnemyStats*) AvailableTargets[i]->GetComponentByClass(UFGEnemyStats::StaticClass());*/
+
+	if (TargetActorStats != nullptr && PriorityTargetStats != nullptr)
 	{
+		LuaComponent->SetBool(true, TEXT("CanWeaponShoot"));
+
+		if ((TargetActorStats->GetHealth() * TargetActorStats->GetTimeRemaining() <
+			 PriorityTargetStats->GetHealth() * PriorityTargetStats->GetTimeRemaining()))
+		{
+			TargetActor = AvailableTargets[0];
+		}
+		else 
+		{
+		}
 	}
-	TargetActor = AvailableTargets[0];
 }
 
 void AFGTurretSingle::StartAsyncOverlap()
@@ -268,13 +284,6 @@ void AFGTurretSingle::HandleAsyncOverlap(const FTraceHandle& TraceHandle, FOverl
 
 	if (!TargetActor && AvailableTargets.Num() > 0)
 	{
-		// look at current element in AvailableTargets, starting with 0, if target has more health than the element look at next one, 
-		// if not insert it there and move the rest of the list +1 element.
-		// look at current element in AvailableTargets, starting with 0, if target has higher speed insert it there and move the rest
-		// of the list +1 elements.
-		// look at current element in AvailableTargets, starting with 0, if target is further away look at next one, if not insert it there
-		// and move the rest of the list +1 elements.
-		/*if (TargetActor->UFGEnemyStats::GetHealth() <  )*/
 /*		TargetActor = AvailableTargets[0];*/
 		TargetPriority();
 	}

@@ -3,9 +3,9 @@
 #include "Character/FGCharacter.h"
 #include "WorldCollision.h"
 #include "GameFramework/Actor.h"
- #include "Components/StaticMeshComponent.h"
- #include "Components/BoxComponent.h"
- #include "Components/SphereComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Components/BoxComponent.h"
+#include "Components/SphereComponent.h"
 /*#include "Components/FGAmmoComponent.h"*/
 #include "Components/FGLuaComponent.h"
 #include "Lua/FGLuaContext.h"

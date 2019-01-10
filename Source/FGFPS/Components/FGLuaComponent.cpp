@@ -81,6 +81,12 @@ void UFGLuaComponent::SetInteger(int Integer, const FString& Name)
 	LuaContext->SetInteger(Integer, TCHAR_TO_ANSI(*Name));
 }
 
+void UFGLuaComponent::SetBool(bool Bool, const FString& Name)
+{
+	check(LuaContext != nullptr);
+	LuaContext->SetBool(Bool, TCHAR_TO_ANSI(*Name));
+}
+
 UFGLuaComponent* UFGLuaComponent::GetLuaComponentFromActor(UObject* WorldContextObject, class AActor* TargetActor, bool bUseFindComponent /*= true*/)
 {
 	if (!TargetActor)
