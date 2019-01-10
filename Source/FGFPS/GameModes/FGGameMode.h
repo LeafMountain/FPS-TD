@@ -12,9 +12,14 @@ private:
 	// The current amount of lives
 	int LifeCurrent;
 
+	// The current time left
+	float CurrentTime = 9999;
+
+	float TimerTimeScale = 1;
+
 protected:	
 	void BeginPlay() override;
-
+	void Tick(float DeltaSeconds) override;
 public:
 	// The max amount of lives (the amount to start with)
 	UPROPERTY(EditAnywhere)
@@ -35,4 +40,41 @@ public:
 	// Get the current amount of lives
 	UFUNCTION(BlueprintPure)
 	int GetCurrentLife();
+
+	UFUNCTION(BlueprintCallable)
+		void ResetGame();
+
+// Timer functions
+	// The start time
+	UPROPERTY(EditAnywhere)
+	float MaxTimer = 360;
+
+	// Set the current time to MaxTimer
+	UFUNCTION(BlueprintCallable)
+	void ResetTimer();
+
+	// Get the current time
+	UFUNCTION(BlueprintPure)
+	float GetTimeLeft();
+
+	// Pause
+	UFUNCTION(BlueprintCallable)
+	void PauseToggle();
+
+	// Modify Timer
+	UFUNCTION(BlueprintCallable)
+	void SetTimer(float Seconds);
+
+	// Add value to timer
+	UFUNCTION(BlueprintCallable)
+	void AdjustTimer(float Seconds);
+
+	UFUNCTION(BlueprintCallable)
+	void PauseTimer();
+
+	UFUNCTION(BlueprintCallable)
+	void ResumeTimer();
+
+	UFUNCTION(BlueprintCallable)
+		void SetTimerTimeScale(float Value);
 };
