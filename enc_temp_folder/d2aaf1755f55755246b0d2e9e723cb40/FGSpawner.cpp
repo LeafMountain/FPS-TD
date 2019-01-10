@@ -15,7 +15,6 @@ void AFGSpawner::Spawn() {
 	// Spawn actor
 	if (spawnProfiles.Num() > 0) {
 		TArray<TSubclassOf<AActor>> viableActors = GetListOfViableActors();
-		UE_LOG(LogTemp, Warning, TEXT("%i"), viableActors.Num());
 
 		if (viableActors.Num() > 0) {
 			float randomIndex = FMath::RandRange(0, viableActors.Num() - 1);
