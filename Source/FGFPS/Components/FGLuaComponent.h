@@ -41,6 +41,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FG|Lua")
 	void SetInteger(int Integer, const FString& Name);
 
+	UFUNCTION(BlueprintCallable, Category = "FG|Lua")
+	void SetBool(bool Bool, const FString& Name);
+
 	UFUNCTION(BlueprintPure, Category = "FG|Lua", meta = (WorldContext = "WorldContextObject"))
 	static UFGLuaComponent* GetLuaComponentFromActor(UObject* WorldContextObject, class AActor* TargetActor, bool bUseFindComponent = true);
 

@@ -1,5 +1,5 @@
 
-CanShoot = true
+CanShoot = false
 
 MaxAmmo = 15
 Ammo = 15
