@@ -1,4 +1,4 @@
-Speed = 400
+Speed = 2000
 Health = 10
 
 function ModifyHealth( Value )

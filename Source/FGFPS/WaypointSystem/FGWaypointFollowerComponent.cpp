@@ -68,9 +68,9 @@ void UFGWaypointFollowerComponent::CheckIfDestinationReached()
 	StopDestinationCheck();
 
 	// Testing purposes
-	UFGEnemyStats* EnemyStats = (UFGEnemyStats*)GetOwner()->GetComponentByClass(UFGEnemyStats::StaticClass());
-	if(EnemyStats)
-		UE_LOG(LogTemp, Warning, TEXT("%f time left"), EnemyStats->GetTimeRemaining());
+	//UFGEnemyStats* EnemyStats = (UFGEnemyStats*)GetOwner()->GetComponentByClass(UFGEnemyStats::StaticClass());
+	//if(EnemyStats)
+	//	UE_LOG(LogTemp, Warning, TEXT("%f time left"), EnemyStats->GetTimeRemaining());
 
 	// Check if destination has been reached
 	if (DestinationReached()) {

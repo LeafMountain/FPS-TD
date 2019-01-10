@@ -4,6 +4,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Components/FGLuaComponent.h"
 
 const float AFGEnemyCharacter::TimeUntilRagdoll = 0.25f;
 
@@ -52,7 +53,17 @@ float AFGEnemyCharacter::TakeDamage(float Damage, struct FDamageEvent const& Dam
 
 	if (Damage > SMALL_NUMBER)
 	{
+		UFGLuaComponent* LuaComponent = (UFGLuaComponent*)GetComponentByClass(UFGLuaComponent::StaticClass());
+
+		if (LuaComponent)
+		{
+			LuaComponent->CallFunction_OneParamNumber("AdjustHealth", Damage);
+			UE_LOG(LogTemp, Warning, TEXT("Lives left %i"), LuaComponent->CallFunction_RetValueNumber("GetHealth"));
+		}
+
 		Health -= Damage;
+		UE_LOG(LogTemp, Warning, TEXT("Health left %f"), Health);
+
 
 		if (Health <= 0.0f)
 		{
