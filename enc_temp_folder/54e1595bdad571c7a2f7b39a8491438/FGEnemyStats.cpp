@@ -1,22 +1,14 @@
 #include "FGEnemyStats.h"
-#include "FGLuaComponent.h"
 #include "WaypointSystem/FGWaypointFollowerComponent.h"
-
-void UFGEnemyStats::BeginPlay()
-{
-	Super::BeginPlay();
-
-	LuaComponent = (UFGLuaComponent*)GetOwner()->GetComponentByClass(UFGLuaComponent::StaticClass());
-}
 
 float UFGEnemyStats::GetSpeed()
 {
-	return LuaComponent ? LuaComponent->CallFunction_RetValueNumber("GetSpeed", -1.f) : -1;
+	return 10;
 }
 
 float UFGEnemyStats::GetHealth()
 {
-	return LuaComponent ? LuaComponent->CallFunction_RetValueNumber("GetHealth", -1.f) : -1;
+	return 10;
 }
 
 float UFGEnemyStats::GetProgress()
@@ -43,17 +35,4 @@ float UFGEnemyStats::GetTimeRemaining()
 	}
 	
 	return -1;
-}
-
-//void UFGEnemyStats::SetSpeed(float Value)
-//{
-//
-//}
-
-void UFGEnemyStats::AdjustHealth(int Value)
-{
-	if(LuaComponent)
-		LuaComponent->CallFunction_OneParamNumber("AdjustHealth", GetHealth() + Value);
-	else
-		UE_LOG(LogTemp, Warning, TEXT("No LuaComponent found."));
 }
