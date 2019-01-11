@@ -115,7 +115,8 @@ protected:
 
 	void LookUpAtRate(float Rate);
 
-	void ReloadWeapon(float Val);
+	UFUNCTION(BlueprintCallable, Category = "FG")
+	int ExtractAmmo(int Value);
 	
 protected:
 	

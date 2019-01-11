@@ -1,5 +1,5 @@
 
-CanShoot = false
+CanShoot = true
 
 MaxAmmo = 15
 Ammo = 15
@@ -24,7 +24,13 @@ function OnShoot()
 end
 
 function CanWeaponShoot()
-	--if Ammo > 0 then
 	return CanShoot
-	--end
+end
+
+function Reloading(Value)
+	Ammo = Ammo + Value
+end
+
+function GetMissingAmmo()
+	return 15 - Ammo
 end

@@ -239,6 +239,7 @@ void AFGCharacter::InteractPressed()
 void AFGCharacter::InteractReleased()
 {
 	check(InteractorComponent != nullptr);
+/*	LuaComponent->CallFunction(TEXT("ReloadTurret"));*/
 	InteractorComponent->StopInteracting();
 }
 
@@ -284,7 +285,18 @@ void AFGCharacter::LookUpAtRate(float Rate)
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
-void AFGCharacter::ReloadWeapon(float Val)
+int AFGCharacter::ExtractAmmo(int Value)
 {
+	int PlayerAmmo = LuaComponent->GetInteger(TEXT("Ammo"));
 
+	if (PlayerAmmo >= Value)
+	{
+		LuaComponent->SetInteger(PlayerAmmo - Value ,TEXT("Ammo"));
+		return Value;
+	}
+	else
+	{
+		LuaComponent->SetInteger(0 , TEXT("Ammo"));
+		return PlayerAmmo;
+	}
 }
