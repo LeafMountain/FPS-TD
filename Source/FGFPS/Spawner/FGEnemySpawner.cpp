@@ -5,7 +5,7 @@
 #include "GameFramework/Actor.h"
 
 void AFGEnemySpawner::PostSpawn(AActor* OtherActor) {
-	if (FirstWaypoint) {
+	if (FirstWaypoint && OtherActor) {
 		UFGWaypointFollowerComponent* WaypointFollower = (UFGWaypointFollowerComponent*)OtherActor->GetComponentByClass(UFGWaypointFollowerComponent::StaticClass());
 
 		if(WaypointFollower)

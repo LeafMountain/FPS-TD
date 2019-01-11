@@ -57,16 +57,6 @@ void AFGGameMode::ResetGame()
 	UGameplayStatics::OpenLevel(GetWorld(), "?Restart");
 }
 
-FText AFGGameMode::GetLifeUI()
-{
-	return FText::FromString(FString::FromInt(LifeCurrent));
-}
-
-FText AFGGameMode::GetTimeUI()
-{
-	return FText::FromString(FString::FromInt((int)CurrentTime));
-}
-
 void AFGGameMode::ResetTimer()
 {
 	CurrentTime = MaxTimer;

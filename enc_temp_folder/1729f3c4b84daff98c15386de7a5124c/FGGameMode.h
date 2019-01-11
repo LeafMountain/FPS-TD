@@ -13,7 +13,7 @@ private:
 	int LifeCurrent;
 
 	// The current time left
-	float CurrentTime = 10;
+	float CurrentTime = 9999;
 
 	float TimerTimeScale = 1;
 
@@ -43,9 +43,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void ResetGame();
-
-	FText GetLifeUI();
-	FText GetTimeUI();
 
 // Timer functions
 	// The start time
