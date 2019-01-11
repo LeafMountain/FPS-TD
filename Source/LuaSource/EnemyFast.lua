@@ -1,7 +1,7 @@
 Speed = 400
 Health = 30
 
-function ModifyHealth( Value )
+function ModifyHealth(Value)
     Health = Health + Value
 end
 
