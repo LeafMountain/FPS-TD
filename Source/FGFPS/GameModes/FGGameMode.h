@@ -80,4 +80,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void SetTimerTimeScale(float Value);
+
+	UFUNCTION(BlueprintCallable)
+	float GetTimeLeftPercentage();
 };

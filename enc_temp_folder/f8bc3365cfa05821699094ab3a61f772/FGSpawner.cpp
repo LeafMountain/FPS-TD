@@ -48,20 +48,19 @@ TArray<TSubclassOf<AActor>> AFGSpawner::GetListOfViableActors()
 {
 	TArray<TSubclassOf<AActor>> ViableActors;
 
-	float TimeLeft = 0.f;		// Percentage
+	float timeLeft = 0.f;		// Percentage
 
 	AFGGameMode* GameMode = (AFGGameMode*)GetWorld()->GetAuthGameMode();
 
 	if (GameMode)
 	{
-		TimeLeft = GameMode->GetTimeLeftPercentage();
-		UE_LOG(LogTemp, Warning, TEXT("Time Left: %f"), TimeLeft);
+		timeLeft = GameMode->GetTimeLeftPercentage();
 	}
 
 	// Loop through all the profiles
 	for (int i = 0; i < spawnProfiles.Num(); i++) {
 		// Check if the profile is setup right and if it's time to spawn the spawnable
-		if (spawnProfiles[i]->spawnables.Num() > 0 && spawnProfiles[i]->percentageTimeLeft >= TimeLeft) {
+		if (spawnProfiles[i]->spawnables.Num() > 0 && spawnProfiles[i]->percentageTimeLeft >= timeLeft) {
 			for (int j = 0; j < spawnProfiles[i]->spawnables.Num(); j++) {
 				ViableActors.Add(spawnProfiles[i]->spawnables[j]);
 			}

@@ -107,3 +107,8 @@ void AFGGameMode::SetTimerTimeScale(float Value)
 {
 	TimerTimeScale = Value;
 }
+
+float AFGGameMode::GetTimeLeftPercentage()
+{
+	return CurrentTime / MaxTimer;
+}
