@@ -79,7 +79,7 @@ public:
 	void ResumeTimer();
 
 	UFUNCTION(BlueprintCallable)
-	void SetTimerTimeScale(float Value);
+		void SetTimerTimeScale(float Value);
 
 	UFUNCTION(BlueprintCallable)
 	float GetTimeLeftPercentage();
