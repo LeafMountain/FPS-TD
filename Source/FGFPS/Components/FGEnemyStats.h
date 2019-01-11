@@ -17,7 +17,7 @@ protected:
 	class UFGLuaComponent* LuaComponent;
 
 public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintPure)
 		float GetSpeed();
 
 	UFUNCTION(BlueprintCallable)

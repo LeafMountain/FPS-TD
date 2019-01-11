@@ -53,22 +53,22 @@ float AFGEnemyCharacter::TakeDamage(float Damage, struct FDamageEvent const& Dam
 
 	if (Damage > SMALL_NUMBER)
 	{
+
+		UE_LOG(LogTemp, Warning, TEXT("Damage = %i"), (int)Damage);
+
 		UFGLuaComponent* LuaComponent = (UFGLuaComponent*)GetComponentByClass(UFGLuaComponent::StaticClass());
 
 		if (LuaComponent)
 		{
-			LuaComponent->CallFunction_OneParamNumber("AdjustHealth", Damage);
-			UE_LOG(LogTemp, Warning, TEXT("Lives left %i"), LuaComponent->CallFunction_RetValueNumber("GetHealth"));
+			LuaComponent->CallFunction_OneParamNumber("ModifyHealth", -Damage);
+			UE_LOG(LogTemp, Warning, TEXT("Lives left %i"), (int)LuaComponent->CallFunction_RetValueNumber("GetHealth"));
+
+			if(LuaComponent->CallFunction_RetValueBool("IsDead"))
+			{
+				Die();
+			}
 		}
 
-		Health -= Damage;
-		UE_LOG(LogTemp, Warning, TEXT("Health left %f"), Health);
-
-
-		if (Health <= 0.0f)
-		{
-			Die();
-		}
 	}
 
 	return Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
@@ -90,6 +90,8 @@ void AFGEnemyCharacter::Die()
 	FTimerManager& TimerManager = GetWorldTimerManager();
 	TimerManager.ClearTimer(RagdollTimerHandle);
 	TimerManager.SetTimer(RagdollTimerHandle, this, &AFGEnemyCharacter::DoRagdoll, TimeUntilRagdoll, false);
+
+	Destroy();
 }
 
 void AFGEnemyCharacter::DoRagdoll()
@@ -106,3 +108,7 @@ void AFGEnemyCharacter::DoRagdoll()
 	bRagdoll = true;
 }
 
+//void AFGEnemyCharacter::OnDeath_Implementation()
+//{
+//
+//}

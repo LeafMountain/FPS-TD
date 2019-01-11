@@ -23,7 +23,7 @@ float UFGEnemyStats::GetProgress()
 {
 	UFGWaypointFollowerComponent* WaypointFollower = (UFGWaypointFollowerComponent*)GetOwner()->GetComponentByClass(UFGWaypointFollowerComponent::StaticClass());
 
-	int Progress = 0;
+	int Progress = -1;
 
 	if (WaypointFollower)
 		Progress = WaypointFollower->GetProgress();

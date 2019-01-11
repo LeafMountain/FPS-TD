@@ -1,6 +1,7 @@
 #include "FGSpawner.h"
 #include "Engine/World.h"
 #include "FGSpawnerProfile.h"
+#include "GameModes/FGGameMode.h"
 
 void AFGSpawner::BeginPlay() {
 	Super::BeginPlay();
@@ -33,22 +34,34 @@ void AFGSpawner::Spawn() {
 	StartSpawnTimer();
 }
 
-void AFGSpawner::PostSpawn(class AActor* SpawnedActor) {
+void AFGSpawner::PostSpawn(class AActor* SpawnedActor) 
+{
 
 }
 
-void AFGSpawner::StartSpawnTimer() {
+void AFGSpawner::StartSpawnTimer() 
+{
 	world->GetTimerManager().SetTimer(timerHandle, this, &AFGSpawner::Spawn, timeBetweenSpawn, false);
 }
 
-TArray<TSubclassOf<AActor>> AFGSpawner::GetListOfViableActors() {
+TArray<TSubclassOf<AActor>> AFGSpawner::GetListOfViableActors() 
+{
 	TArray<TSubclassOf<AActor>> ViableActors;
-	float timeLeft = 0.5f;		// Percentage
+
+	float TimeLeft = 0.f;		// Percentage
+
+	AFGGameMode* GameMode = (AFGGameMode*)GetWorld()->GetAuthGameMode();
+
+	if (GameMode)
+	{
+		TimeLeft = GameMode->GetTimeLeftPercentage();
+		UE_LOG(LogTemp, Warning, TEXT("Time Left: %f"), TimeLeft);
+	}
 
 	// Loop through all the profiles
 	for (int i = 0; i < spawnProfiles.Num(); i++) {
 		// Check if the profile is setup right and if it's time to spawn the spawnable
-		if (spawnProfiles[i]->spawnables.Num() > 0 && spawnProfiles[i]->percentageTimeLeft >= timeLeft) {
+		if (spawnProfiles[i]->spawnables.Num() > 0 && spawnProfiles[i]->percentageTimeLeft >= TimeLeft) {
 			for (int j = 0; j < spawnProfiles[i]->spawnables.Num(); j++) {
 				ViableActors.Add(spawnProfiles[i]->spawnables[j]);
 			}
