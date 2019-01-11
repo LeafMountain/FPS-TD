@@ -77,22 +77,8 @@ void AFGTurretSingle::Tick(float DeltaSeconds)
 		if (TargetActor)
 		{
 			Fire();
-			LuaComponent->CallFunction(TEXT("OnShoot"));
 		}
 	}
-
-
-	/*
-	TArray<FOverlapResult> Overlaps;
-	if (GetWorld()->OverlapMultiByObjectType(Overlaps, GetActorLocation(), FQuat::Identity, CachedCollisionObjectParams, CachedCollisionShape, CachedCollisionQueryParams))
-	{
-		for ( FOverlapResult& Overlap : Overlaps)
-		{
-			TargetActor = Overlap.Actor.Get();
-			break;
-		}
-	}
-	*/
 }
 
 bool AFGTurretSingle::GetShootDirection_Implementation(FVector& StartLocation, FVector& ForwardDirection) const
@@ -148,7 +134,7 @@ void AFGTurretSingle::Fire()
 		if (CurrentWeapon)
 		{
 			CurrentWeapon->Fire();
-			Ammo -= 1;
+			LuaComponent->CallFunction(TEXT("OnShoot"));
 		}
 	}
 }
@@ -194,19 +180,13 @@ void AFGTurretSingle::TargetPriority()
 
 	UFGEnemyStats* TargetActorStats = (UFGEnemyStats*) TargetActor->GetComponentByClass(UFGEnemyStats::StaticClass());
 	UFGEnemyStats* PriorityTargetStats = (UFGEnemyStats*) AvailableTargets[0]->GetComponentByClass(UFGEnemyStats::StaticClass());
-/*	UFGEnemyStats* AvailableTargetsStats = (UFGEnemyStats*) AvailableTargets[i]->GetComponentByClass(UFGEnemyStats::StaticClass());*/
 
 	if (TargetActorStats != nullptr && PriorityTargetStats != nullptr)
 	{
-		LuaComponent->SetBool(true, TEXT("CanWeaponShoot"));
-
 		if ((TargetActorStats->GetHealth() * TargetActorStats->GetTimeRemaining() <
 			 PriorityTargetStats->GetHealth() * PriorityTargetStats->GetTimeRemaining()))
 		{
 			TargetActor = AvailableTargets[0];
-		}
-		else 
-		{
 		}
 	}
 }
@@ -289,7 +269,6 @@ void AFGTurretSingle::HandleAsyncOverlap(const FTraceHandle& TraceHandle, FOverl
 	if (!TargetActor && AvailableTargets.Num() > 0)
 	{
 		TargetActor = AvailableTargets[0];
-		//TargetPriority();
 	}
 
 	if (TargetActor && AvailableTargets.Num() > 0)
@@ -298,5 +277,15 @@ void AFGTurretSingle::HandleAsyncOverlap(const FTraceHandle& TraceHandle, FOverl
 	}
 
 	StartDetection();
+}
+
+void AFGTurretSingle::Reloading(int Value)
+{
+	LuaComponent->CallFunction_OneParamNumber(TEXT("Reloading"), Value);
+}
+
+int AFGTurretSingle::GetMissingAmmo()
+{
+	return (int) LuaComponent->CallFunction_RetValueNumber(TEXT("GetMissingAmmo"), -1);
 }
 

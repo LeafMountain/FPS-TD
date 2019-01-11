@@ -88,4 +88,10 @@ protected:
 	class USceneComponent* WeaponAttachPoint = nullptr;
 
 	bool bDetecting = false;
+
+	UFUNCTION(BlueprintCallable, Category = "FG")
+	void Reloading(int Value);
+
+	UFUNCTION(BlueprintPure, Category = "FG")
+	int GetMissingAmmo();
 };

@@ -1,11 +1,11 @@
 Speed = 100
 Health = 100
 
-function ModifyHealth( Value )
+function ModifyHealth(Value)
     Health = Health + Value
 end
 
-function GetHealth( )
+function GetHealth()
     return Health
 end
 
