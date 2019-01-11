@@ -66,17 +66,21 @@ void AFGTurretSingle::Tick(float DeltaSeconds)
 
 	LuaComponent->CallFunction_OneParamNumber(TEXT("Tick"), DeltaSeconds);
 
-	if (LuaComponent->CallFunction_RetValueBool(TEXT("CanWeaponShoot")))
-	{
-		Fire();
-		LuaComponent->CallFunction(TEXT("OnShoot"));
-	}
-
 	if (TargetActor)
 	{
 		const FVector Direction = (TargetActor->GetActorLocation() - CurrentWeapon->GetActorLocation()).GetSafeNormal();
 		CurrentWeapon->SetActorRotation(Direction.Rotation());
 	}
+
+	if (LuaComponent->CallFunction_RetValueBool(TEXT("CanWeaponShoot")))
+	{
+		if (TargetActor)
+		{
+			Fire();
+			LuaComponent->CallFunction(TEXT("OnShoot"));
+		}
+	}
+
 
 	/*
 	TArray<FOverlapResult> Overlaps;
@@ -284,11 +288,14 @@ void AFGTurretSingle::HandleAsyncOverlap(const FTraceHandle& TraceHandle, FOverl
 
 	if (!TargetActor && AvailableTargets.Num() > 0)
 	{
-/*		TargetActor = AvailableTargets[0];*/
-		TargetPriority();
+		TargetActor = AvailableTargets[0];
+		//TargetPriority();
 	}
 
-
+	if (TargetActor && AvailableTargets.Num() > 0)
+	{
+		TargetPriority();
+	}
 
 	StartDetection();
 }
